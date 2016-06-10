@@ -62,4 +62,5 @@ public class Node {
         }
         return avg/n;
     }
+    //TODO tick method that represents time and forgetness
 }
