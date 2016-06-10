@@ -6,7 +6,7 @@ public class Paranobot {
 
     private static BufferedReader in;
     private static int point; //use only to index
-    private static Thought[] buffer;
+
     /**Each file contains one thought**/
     public static void main(String[] args) {
         point = 0; //file of point 0 doesn't exist, this is for convenience
@@ -46,26 +46,30 @@ public class Paranobot {
         }
     }
 
-    private static void readHard(){
+    private static Thought readHard(int p){
         ObjectInputStream ois;
         FileInputStream fis;
-        buffer = new Thought[point];
-        int e = point;
+        Thought res;
         try{
+                String path = "Hard/thought"+ p +".paranoia";
 
-            for(int i=0; i<point; i++){
-                fis = new FileInputStream("/Hard/thought"+ e-- +".paranoia");
+                fis = new FileInputStream(path);
                 ois = new ObjectInputStream(fis);
-                buffer[i] = (Thought) ois.readObject();
+                res = (Thought) ois.readObject();
                 fis.close();
                 ois.close();
+                return res;
+
+            } catch (FileNotFoundException e) {
+            output("File not found.");
             }
-        }catch(IOException ioe){
+            catch(IOException ioe){
             output("Did not read hard");
-        }
-        catch(ClassNotFoundException cnfe){
+            }
+            catch(ClassNotFoundException cnfe){
             output("Class not found");
-        }
+            }
+        return null;
     }
 
     private static int makeHardPoint() throws IOException {
