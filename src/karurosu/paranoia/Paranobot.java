@@ -5,25 +5,28 @@ import java.io.*;
 public class Paranobot {
 
     private static BufferedReader in;
+    private static Interface userInterface;
     private static int point; //use only to index
 
     /**Each file contains one thought**/
     public static void main(String[] args) {
         point = 0; //file of point 0 doesn't exist, this is for convenience
-        initialize(args);
+        core(args);
     }
 
-    private static void initialize(String[] args){
-        in = new BufferedReader(new InputStreamReader(System.in));
-        output("STARTING PARANOIA PROJECT");
-        saveHard(new Thought("one", Thought.Type.GOOD, Thought.Intensity.OK));
-        saveHard(new Thought("one", Thought.Type.GOOD, Thought.Intensity.OK));
-        saveHard(new Thought("one", Thought.Type.GOOD, Thought.Intensity.OK));
-        output("point "+point);
-    }
+    private static void core(String[] args) {
+        userInterface.output("STARTING PARANOIA PROJECT");
+        userInterface = Interface.getInstance();
 
-    public synchronized static void output(String s){
-        System.out.println(s);
+        saveHard(new Thought("one", Thought.Type.GOOD, Thought.Intensity.OK));
+        saveHard(new Thought("one", Thought.Type.GOOD, Thought.Intensity.OK));
+        saveHard(new Thought("one", Thought.Type.GOOD, Thought.Intensity.OK));
+        userInterface.output("point "+point);
+        try {
+            Interface.t.join();
+        } catch (InterruptedException e) {
+            userInterface.output("BEEP BEEP IT SEEMS SOMETHING AINT WORKIN!");
+        }
     }
 
     public synchronized static void saveHard(Thought o){
@@ -42,7 +45,7 @@ public class Paranobot {
             oos.close();
             fos.close();
         }catch(IOException ioe){
-            output("Did not save hard");
+            userInterface.output("Did not save hard");
         }
     }
 
@@ -61,13 +64,13 @@ public class Paranobot {
                 return res;
 
             } catch (FileNotFoundException e) {
-            output("File not found.");
+            userInterface.output("File not found.");
             }
             catch(IOException ioe){
-            output("Did not read hard");
+            userInterface.output("Did not read hard");
             }
             catch(ClassNotFoundException cnfe){
-            output("Class not found");
+            userInterface.output("Class not found");
             }
         return null;
     }
@@ -85,7 +88,6 @@ public class Paranobot {
 
         if(pointFile.exists() && !pointFile.isDirectory()){
             FileInputStream fis = new FileInputStream(pointFile);
-            output("good!");
             point = fis.read();
             pointFile.delete();
         }

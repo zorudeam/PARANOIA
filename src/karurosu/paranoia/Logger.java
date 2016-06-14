@@ -8,21 +8,24 @@ import java.io.OutputStreamWriter;
 public class Logger {
 
     private static Logger instance = null;
-    private static FileOutputStream errorStream, dumpStream;
-    private static OutputStreamWriter errorWriter, dumpWriter;
+    private static FileOutputStream errorStream, dumpStream, regularStream;
+    private static OutputStreamWriter errorWriter, dumpWriter, regularWriter;
 
-    public Logger getLogger(){
+    public static Logger getLogger(){
         if (instance == null){
             instance = new Logger();
             File path = new File("/logs");
             path.mkdirs();
             File error = new File(path, "error.txt");
             File dump = new File(path, "dump.txt");
+            File regular = new File(path, "regular.txt");
             try {
                 errorStream = new FileOutputStream(error);
                 dumpStream = new FileOutputStream(dump);
+                regularStream = new FileOutputStream(regular);
                 errorWriter = new OutputStreamWriter(errorStream);
                 dumpWriter = new OutputStreamWriter(dumpStream);
+                regularWriter = new OutputStreamWriter(regularStream);
             }catch(IOException ioe){System.out.println("IOException !");}
         }
         return instance;
@@ -35,10 +38,10 @@ public class Logger {
     public static synchronized void log(String message, Log_type log_type ){
         try {
         if(log_type == Log_type.REGULAR) {
-            System.out.println(message);
+            regularWriter.write(message);
         }
         else if(log_type == Log_type.DUMP) {
-            errorWriter.write(message);
+            dumpWriter.write(message);
         }
         else if(log_type == Log_type.ERROR){
             errorWriter.write(message);

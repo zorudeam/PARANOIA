@@ -10,9 +10,10 @@ public class Node {
 
     int avg;
     boolean interrupt;
-    Thought t2;
+    Thought t2; //actually, t2 is the thought before t.
     List<Node> nodes;
     List<Thought> thoughts;
+    Idea idea;
 
     public void Node(){
         nodes = new ArrayList<>();
@@ -35,7 +36,7 @@ public class Node {
     /**Method synthesize decides what to do with a Thought object**/
     private Thought synthesize(Thought thought){
 
-        //TODO a new thought about thought
+        //TODO: A new thought about thought. Here is where communication between nodes and creativity (should) occurs.
 
         if(thought.intensity.getIntensity() > getIntensityAvg()){
             add(thought);
@@ -65,9 +66,10 @@ public class Node {
         }
         return avg/n;
     }
+
     /**
      * The tick method is supposed to increase the forgetness index of some thoughts and stop whenever boolean interrupt is true
-     * TODO call tick method, develop switch idea method
+     * TODO: call tick method and use the interrupt boolean
      * **/
     public void tick(){
         if (t2 != null) {
@@ -77,14 +79,17 @@ public class Node {
                     t.forgetness++;
                 }
                 t2 = t;
-                return;
             }
         }
-        t2 = thoughts.get(0);
+        else t2 = thoughts.get(0);
     }
 
-    public void switchIdea(){
-        Logger.log("Not supported yet");
+    private Idea classifyIdea(){
+        idea = new Idea();
+        idea.archive(thoughts);
+        return idea;
     }
+
+    //TODO: Automatic interaction between nodes
 
 }
