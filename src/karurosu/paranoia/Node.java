@@ -1,6 +1,7 @@
 package karurosu.paranoia;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The class Node is equivalent to a neuron.
@@ -8,8 +9,10 @@ import java.util.ArrayList;
 public class Node {
 
     int avg;
-    ArrayList<Node> nodes;
-    ArrayList<Thought> thoughts;
+    boolean interrupt;
+    Thought t2;
+    List<Node> nodes;
+    List<Thought> thoughts;
 
     public void Node(){
         nodes = new ArrayList<>();
@@ -62,5 +65,26 @@ public class Node {
         }
         return avg/n;
     }
-    //TODO tick method that represents time and forgetness
+    /**
+     * The tick method is supposed to increase the forgetness index of some thoughts and stop whenever boolean interrupt is true
+     * TODO call tick method, develop switch idea method
+     * **/
+    public void tick(){
+        if (t2 != null) {
+            for(Thought t : thoughts) {
+                if(interrupt) return;
+                if (t.intensity.getIntensity() < t2.intensity.getIntensity()) {
+                    t.forgetness++;
+                }
+                t2 = t;
+                return;
+            }
+        }
+        t2 = thoughts.get(0);
+    }
+
+    public void switchIdea(){
+        Logger.log("Not supported yet");
+    }
+
 }

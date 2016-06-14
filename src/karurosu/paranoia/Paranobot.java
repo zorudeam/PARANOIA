@@ -99,4 +99,5 @@ public class Paranobot {
     private static void newHardPoint(){
         ++point;
     }
+
 }

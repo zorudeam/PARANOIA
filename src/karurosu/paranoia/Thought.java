@@ -6,6 +6,8 @@ public class Thought implements Serializable{
     String message;
     Intensity intensity;
     Type type;
+    public int forgetness;
+
 
     public Thought(String message, Type type, Intensity intensity){
         this.message = message;
