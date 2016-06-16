@@ -13,12 +13,12 @@ public class Interface implements Runnable{
     static Thread t;
 
     public static Interface getInstance() {
-        t = new Thread(instance);
-        t.start();
         return instance;
     }
 
-    private Interface() {
+    private Interface() { //still to test, I have never done this before
+        t = new Thread(instance);
+        t.start();
     }
 
     public static synchronized void output(String s){System.out.println(s);}
@@ -32,8 +32,8 @@ public class Interface implements Runnable{
         //TODO:Continue whatever I was doing, IDK, it's 5AM...
     }
 
-    public void input(){
-        input(String.class);
+    public String input(){
+        return (String) input(String.class);
     }
 
     public static synchronized Object input(Class c){
