@@ -8,3 +8,5 @@ The Thought class is supposed to be classes that are going to be serialized by f
 The Node instances are equivalent to neurons.
 The Interface class is the class that will handle interacting with the user.
 The Logger class is in charge of writing/outputting what is happening.
+
+PS: This is nothing serious, just a way for practicing my coding skills.
